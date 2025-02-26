@@ -1,0 +1,12 @@
+changes by suraj:{
+    changes in jwt file:
+        1. change the token name to accessToken
+        2. change the refreshtoken to refreshToekn
+
+    changes in UserRouter:
+        1. add the get all api to get all tasks
+        2. add the update task api that update only status
+
+    change in protectedRouter
+        1. add the user path
+}
