@@ -9,7 +9,7 @@ const authRouter = Router();
 authRouter.post("/signin", signinController);
 authRouter.post("/forgot", forgotPasswordController);
 authRouter.post("/reset", resetPasswordController);
-
+authRouter.post("/refreshtoken", refreshtokenController);
 export default authRouter;
 
 async function signinController(req, res) {
@@ -20,6 +20,7 @@ async function signinController(req, res) {
       return errorResponse(res, 400, "Email and password are required.");
     }
     const user = await userModel.findOne({ email });
+    let role = user ? user.role : null;
     if (!user) {
       return errorResponse(res, 404, "User not found.");
     }
@@ -29,15 +30,18 @@ async function signinController(req, res) {
     if (!passwordvalid) {
       return errorResponse(res, 401, "invalid password");
     }
-    const token = generatToken({
-      userid: user._id,
+    const { accessToken, refreshToken } = generatToken({
+      userId: user._id,
       email: user.email,
-      // userid: user._id,
       role: user.role,
     });
-    console.log("Generated Token:", token);
-
-    return successResponse(res, "Signin successful", token);
+    // console.log("Generated roles:", email, role);
+    const redirectPath = `/${role}`;
+    return successResponse(res, "signin successfull", {
+      accessToken,
+      refreshToken,
+      redirectPath,
+    });
   } catch (error) {
     console.error("Error during signin", error);
     return errorResponse(res, 500, "Internal server error.");
@@ -97,7 +101,36 @@ async function resetPasswordController(req, res) {
     console.log("error during signin", error);
     errorResponse(res, 500, "internal server error");
   }
-  
 }
+async function refreshtokenController(req, res) {
+  try {
+    const { refreshToken } = req.body;
+    if (!refreshToken) {
+      return errorResponse(res, 400, "Refresh token not provided.");
+    }
 
+    let payload;
+    try {
+      payload = verifyToken(refreshToken);
+    } catch (error) {
+      return errorResponse(res, 400, "Invalid refresh token.");
+    }
 
+    // Ensure payload contains userId
+    if (!payload || !payload.userId) {
+      return errorResponse(res, 400, "Invalid token data.");
+    }
+
+    const tokens = generatToken({
+      userId: payload.userId,
+      email: payload.email,
+      role: payload.role,
+    });
+    console.log(tokens);
+
+    return successResponse(res, "Token refreshed successfully", tokens);
+  } catch (error) {
+    console.error("Error during refresh token", error);
+    errorResponse(res, 500, "Internal server error");
+  }
+}

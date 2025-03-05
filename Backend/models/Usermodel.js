@@ -4,11 +4,11 @@ const userSchma = new Schema({
   fname: String,
   lname: String,
   email: String,
-  age:String,
-  mobile:String,
-  password:String,
-  role:String,
+  age: String,
+  mobile: String,
+  password: String,
+  role: String,
 });
 
-const userModel = model("user", userSchma);
+const userModel = model("users", userSchma);
 export default userModel;

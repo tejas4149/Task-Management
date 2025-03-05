@@ -6,7 +6,7 @@ const key = crypto.randomBytes(32).toString("hex");
 
 export function generatToken(payload) {
   const accessToken = jwt.sign(payload, key, {
-    expiresIn: "6m",
+    expiresIn: "10m",
   });
   const refreshToken = jwt.sign(payload, key, {
     expiresIn: "24h",
@@ -45,6 +45,7 @@ export async function authmiddleware(req, res, next) {
       return;
     }
     console.log("payload", payload);
+    res.locals.userId = payload.userId;
     res.locals.email = payload.email;
     res.locals.role = payload.role;
 
@@ -59,7 +60,7 @@ export async function authmiddleware(req, res, next) {
 export async function isSuperAdminMiddleware(req, res, next) {
   try {
     const role = res.locals.role;
-    if (!role || role !== "superadmin") {
+    if (!role || role !== "admin") {
       return errorResponse(res, 401, "not authorized");
     }
     next();

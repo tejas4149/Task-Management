@@ -1,11 +1,32 @@
-import mongoose, { model } from "mongoose";
+import mongoose, { model, Schema, Types } from "mongoose";
 
-const commentSchema = new Schema({
-  task_id: { type: mongoose.Schema.Types.ObjectId, ref: "Task" },
-  user_id: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-  content: { type: String, required: true },
-  created_at: { type: Date, default: Date.now },
-});
+const commentSchema = new Schema(
+  {
+    taskId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "tasks",
+      required: true,
+    }, 
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "users",
+      required: true,
+    },
+    role: {
+      type: String,
+      enum: ["user", "admin", "superadmin"],
+      required: true,
+    },
+    comment: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
 
-const CommentModel = model("comment", commentSchema);
+const CommentModel = model("Comment", commentSchema);
 export default CommentModel;
