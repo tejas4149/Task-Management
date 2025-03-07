@@ -11,7 +11,7 @@ const AdminLayout = () => {
       <Sidebar isOpen={isSidebarOpen} />
 
       {/* Main Content Area */}
-      <div className="flex-1">
+      <div className="flex-1 ">
         {/* Header - Fixed at the top */}
         <AdminHeader
           setIsSidebarOpen={setIsSidebarOpen}
@@ -20,7 +20,7 @@ const AdminLayout = () => {
 
         {/* Page Content (Fixed Position & Adjusted Margins) */}
         <main
-          className={`p-20 transition-all duration-300 ${
+          className={`p-20 transition-all duration-300  ${
             isSidebarOpen ? "ml-64" : "ml-0"
           }`}
         >

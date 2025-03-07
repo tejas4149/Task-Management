@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router"; // Use react-router-dom for routing
+import { Link } from "react-router";
 import API from "../../utils/API";
 import { FaEdit, FaTrash, FaComment } from "react-icons/fa";
 
@@ -51,7 +51,7 @@ const AdminTasks = () => {
   };
 
   return (
-    <div className="p-6 bg-gray-100 min-h-screen">
+    <div className="p-6 bg-gray-100 h-screen flex flex-col">
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-2xl font-semibold">Admin Tasks</h1>
         <Link
@@ -86,7 +86,7 @@ const AdminTasks = () => {
             value={userFilter}
             onChange={(e) => setUserFilter(e.target.value)}
           >
-            {[
+            {[ 
               "All",
               ...new Set(
                 tasks.map((task) =>
@@ -104,8 +104,8 @@ const AdminTasks = () => {
         </div>
       </div>
 
-      {/* Tasks Table */}
-      <div className="bg-white shadow-md rounded-lg p-4">
+      {/* Tasks Table (Scrollable) */}
+      <div className="bg-white shadow-md rounded-lg p-4 max-h-[400px] overflow-auto">
         <table className="w-full border-collapse">
           <thead>
             <tr className="bg-gray-200">
@@ -130,13 +130,22 @@ const AdminTasks = () => {
                 </td>
                 <td className="p-3 capitalize">{task.status}</td>
                 <td className="p-3 flex space-x-2">
-                  <Link to={`/admin/update-task/${task._id}`} className="text-blue-600">
+                  <Link
+                    to={`/admin/update-task/${task._id}`}
+                    className="text-blue-600"
+                  >
                     <FaEdit />
                   </Link>
-                  <button onClick={() => handleDelete(task._id)} className="text-red-600">
+                  <button
+                    onClick={() => handleDelete(task._id)}
+                    className="text-red-600"
+                  >
                     <FaTrash />
                   </button>
-                  <Link to={`/admin/comment/${task._id}`} className="text-green-600">
+                  <Link
+                    to={`/admin/comment/${task._id}`}
+                    className="text-green-600"
+                  >
                     <FaComment />
                   </Link>
                 </td>

@@ -7,14 +7,16 @@ const UserComment = () => {
   const { taskId } = useParams();
   const [task, setTask] = useState(null);
   const [comments, setComments] = useState([]);
-  const [comment, setComment] = useState("");
+  const [newComment, setnewComment] = useState("");
   const [fetchTrigger, setFetchTrigger] = useState(false);
   const commentsEndRef = useRef(null);
 
   useEffect(() => {
     const fetchTaskDetails = async () => {
       try {
-        const taskResponse = await API.get(`/api/protected/user/gettasks/${taskId}`);
+        const taskResponse = await API.get(
+          `/api/protected/user/gettasks/${taskId}`
+        );
         if (taskResponse?.data.data) setTask(taskResponse.data.data);
       } catch (error) {
         console.error("Error fetching task", error);
@@ -27,7 +29,9 @@ const UserComment = () => {
   useEffect(() => {
     const fetchComments = async () => {
       try {
-        const commentsResponse = await API.get(`/api/protected/user/getcomments/${taskId}`);
+        const commentsResponse = await API.get(
+          `/api/protected/user/getcomments/${taskId}`
+        );
         if (commentsResponse?.data.data) {
           setComments(commentsResponse.data.data);
         }
@@ -35,20 +39,21 @@ const UserComment = () => {
         console.error("Error fetching comments", error);
       }
     };
-    
+
     fetchComments();
   }, [taskId, fetchTrigger]);
 
   const handleAddComment = async () => {
-    if (!comment.trim()) return;
+    if (!newComment.trim()) return;
     try {
       const response = await API.post(`/api/protected/user/comment/${taskId}`, {
-        comment,
+        comment: newComment,
       });
 
       if (response?.data.success) {
-        setComment(""); // Clear input field
-        setFetchTrigger(prev => !prev); // Trigger re-fetch of comments
+        setnewComment(""); 
+        
+        setFetchTrigger((prev) => !prev);
       }
     } catch (error) {
       console.error("Error adding comment", error);
@@ -72,7 +77,9 @@ const UserComment = () => {
           <FaArrowLeft className="mr-2" /> Back to Tasks
         </Link>
 
-        <h1 className="text-3xl font-semibold mb-4 text-gray-800">Task Details</h1>
+        <h1 className="text-3xl font-semibold mb-4 text-gray-800">
+          Task Details
+        </h1>
         <div className="bg-gray-100 p-5 rounded-lg shadow-md">
           <p className="text-gray-600 font-semibold">Title:</p>
           <p className="text-lg">{task.title}</p>
@@ -108,8 +115,8 @@ const UserComment = () => {
         <div className="mt-6 flex flex-col">
           <textarea
             className="border border-gray-300 p-3 w-full rounded-lg focus:ring-2 focus:ring-blue-400 outline-none transition"
-            value={comment}
-            onChange={(e) => setComment(e.target.value)}
+            value={newComment}
+            onChange={(e) => setnewComment(e.target.value)}
             placeholder="Add a comment..."
             rows={3}
           />
