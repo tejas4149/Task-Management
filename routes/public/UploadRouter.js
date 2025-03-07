@@ -1,12 +1,12 @@
-import { randomUUID } from "crypto";
 import { Router } from "express";
 import multer from "multer";
 import path from "path";
 import fs from "fs";
 import userModel from "../../models/Usermodel.js";
 import { errorResponse } from "../../utils/serverResponse.js";
+import { randomUUID } from "crypto";
 
-const uploadPath = "./uploads";
+const uploadPath = process.env.UPLOAD_PATH || "./uploads";
 
 // Ensure the uploads directory exists
 if (!fs.existsSync(uploadPath)) {

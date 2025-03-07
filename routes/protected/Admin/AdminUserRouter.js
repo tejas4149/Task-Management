@@ -86,6 +86,7 @@ async function createUsersController(req, res) {
       mobile,
       role,
       password: hashedPassword,
+      profileimage: profileImageUrl,
     });
 
     return successResponse(res, "User created successfully", newUser);
@@ -97,7 +98,9 @@ async function createUsersController(req, res) {
 
 async function getUserByIdController(req, res) {
   try {
-    const user = await userModel.findById(req.params.id).select("fname lname");
+    const user = await userModel
+      .findById(req.params.id)
+      .select("fname lname profileimage");
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }

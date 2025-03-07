@@ -13,7 +13,7 @@ const port = PORT;
 const dir = path.resolve();
 
 app.use(express.json());
-app.use("/api/uploads", express.static("uploads"));
+app.use("/uploads", express.static("./uploads"));
 
 if (MODE === "prod") {
   //static path

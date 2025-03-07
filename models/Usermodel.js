@@ -8,6 +8,7 @@ const userSchma = new Schema({
   mobile: String,
   password: String,
   role: String,
+  profileimage:String,
 });
 
 const userModel = model("users", userSchma);
