@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router"; // Import useNavigate
 import API from "../../utils/API";
 import {
   FaUser,
@@ -8,11 +8,10 @@ import {
   FaPhone,
   FaUserTag,
   FaCalendar,
-  FaImage,
 } from "react-icons/fa";
 
 const CreateUser = () => {
-  const navigate = useNavigate();
+  const navigate = useNavigate(); // Hook for navigation
 
   const [user, setUser] = useState({
     fname: "",
@@ -24,7 +23,7 @@ const CreateUser = () => {
     role: "user",
   });
 
-  const [file, setFile] = useState(null);
+  const [file, setfile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
@@ -37,24 +36,19 @@ const CreateUser = () => {
     setMessage("");
 
     try {
-      // Step 1: Create user first
       const response = await API.post("/api/protected/admin/user/create", user);
-      const userId = response.data.data._id;
 
-      console.log("User created:", response.data);
+      console.log("user create response", response);
 
-      // Step 2: Upload Profile Image (if file is selected)
-      if (file) {
-        const formData = new FormData();
-        formData.append("file", file);
-        formData.append("id", userId);
+      const formdata = new FormData();
+      formdata.append("file", file);
+      formdata.append("id", response.data.data._id);
 
-        await API.post("/api/upload/", formData, {
-          headers: { "Content-Type": "multipart/form-data" },
-        });
-
-        console.log("File uploaded successfully");
-      }
+      const fileresp = await API.post("/api/upload/", formdata, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
 
       setMessage(response.data.message || "User created successfully!");
       setUser({
@@ -71,6 +65,10 @@ const CreateUser = () => {
     }
 
     setLoading(false);
+  };
+
+  const handleCancel = () => {
+    navigate(-1); // Redirects to the previous page
   };
 
   return (
@@ -107,33 +105,47 @@ const CreateUser = () => {
               </div>
             ))}
 
-            {/* Upload Profile Image */}
+            {/* Role Field (Readonly) */}
             <div className="relative">
-              <FaImage className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 text-lg" />
+              <FaUserTag className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 text-lg" />
               <input
-                type="file"
-                accept="image/*"
-                onChange={(e) => setFile(e.target.files[0])}
-                className="w-full pl-10 pr-4 py-3 bg-gray-50 text-gray-800 border border-gray-300 rounded-lg outline-none"
+                value="User"
+                disabled
+                className="w-full pl-10 pr-4 py-3 bg-gray-200 text-gray-500 border border-gray-300 rounded-lg outline-none cursor-not-allowed"
               />
             </div>
 
+            {/* Role Field (Readonly) */}
+            <div className="relative">
+              <FaUserTag className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 text-lg" />
+              <input
+               
+                onChange={(e) => setfile(e.target.files[0])}
+                type="file"
+                placeholder="choose file"
+                className="w-full pl-10 pr-4 py-3 bg-gray-200 text-gray-500 border border-gray-300 rounded-lg outline-none cursor-not-allowed"
+              />
+            </div>
+            {/* Buttons */}
             <div className="flex justify-between gap-4">
+              {" "}
+              {/* Added gap-4 */}
               <button
-                onClick={() => navigate(-1)}
-                className="w-1/2 bg-gray-500 hover:bg-gray-600 text-white font-semibold py-3 px-4 rounded-lg transition-all"
+                onClick={handleCancel}
+                className="w-1/2 bg-gray-500 hover:bg-gray-600 text-white font-semibold py-3 px-4 rounded-lg transition-all duration-300 shadow-md"
               >
                 Cancel
               </button>
               <button
                 onClick={handleCreateUser}
-                className="w-1/2 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg transition-all"
+                className="w-1/2 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg transition-all duration-300 disabled:opacity-50 shadow-md"
                 disabled={loading}
               >
                 {loading ? "Creating..." : "Create User"}
               </button>
             </div>
 
+            {/* Message */}
             {message && (
               <p className="text-center text-sm font-medium text-gray-600">
                 {message}

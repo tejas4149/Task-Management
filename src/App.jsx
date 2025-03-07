@@ -9,11 +9,12 @@ import UpdateUser from "./pages/Admin/UpdateUser";
 import CreateUser from "./pages/Admin/CreateUser";
 import CreateTask from "./pages/Admin/CreateTask";
 import UpdateTask from "./pages/Admin/UpdateTask";
-import UserProfile from "./pages/User/UserProfile";
+// import UserProfile from "./pages/User/UserProfile";
 import UserTask from "./pages/User/UserTask";
 import UserHome from "./pages/User/UserHome";
 import Comment from "./pages/Admin/Comment";
 import UserComment from "./pages/User/UserComment";
+import UserProfile from "./pages/User/UserProfile";
 
 function App() {
   return (

@@ -41,89 +41,69 @@ const UpdateUser = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100 p-4">
-      <div className="max-w-lg w-full bg-white shadow-lg rounded-xl p-6">
-        <h2 className="text-3xl font-semibold text-gray-800 text-center mb-6">
-          Update User
-        </h2>
+    <div className="max-w-md mx-auto bg-white shadow-md rounded-lg p-6">
+      <h2 className="text-2xl font-bold mb-4">Update User</h2>
 
-        {/* Form Fields */}
-        <div className="space-y-4">
-          <div>
-            <label className="block text-gray-600 font-medium">
-              First Name
-            </label>
-            <input
-              type="text"
-              name="fname"
-              value={user.fname}
-              onChange={handleChange}
-              className="w-full border rounded-lg px-4 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
+      <label className="block">First Name</label>
+      <input
+        type="text"
+        name="fname"
+        value={user.fname}
+        onChange={handleChange}
+        className="w-full border p-2 mb-2"
+      />
 
-          <div>
-            <label className="block text-gray-600 font-medium">Last Name</label>
-            <input
-              type="text"
-              name="lname"
-              value={user.lname}
-              onChange={handleChange}
-              className="w-full border rounded-lg px-4 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
+      <label className="block">Last Name</label>
+      <input
+        type="text"
+        name="lname"
+        value={user.lname}
+        onChange={handleChange}
+        className="w-full border p-2 mb-2"
+      />
 
-          <div>
-            <label className="block text-gray-600 font-medium">Email</label>
-            <input
-              type="email"
-              name="email"
-              value={user.email}
-              onChange={handleChange}
-              className="w-full border rounded-lg px-4 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
+      <label className="block">Email</label>
+      <input
+        type="email"
+        name="email"
+        value={user.email}
+        onChange={handleChange}
+        className="w-full border p-2 mb-2"
+      />
 
-          <div>
-            <label className="block text-gray-600 font-medium">Mobile</label>
-            <input
-              type="text"
-              name="mobile"
-              value={user.mobile}
-              onChange={handleChange}
-              className="w-full border rounded-lg px-4 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
+      <label className="block">Mobile</label>
+      <input
+        type="text"
+        name="mobile"
+        value={user.mobile}
+        onChange={handleChange}
+        className="w-full border p-2 mb-2"
+      />
 
-          <div>
-            <label className="block text-gray-600 font-medium">Role</label>
-            <select
-              name="role"
-              value={user.role}
-              disabled
-              onChange={handleChange}
-              className="w-full border rounded-lg px-4 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
-            >
-              <option value="User">User</option>
-            </select>
-          </div>
-        </div>
+      <label className="block">Role</label>
+      <select
+        name="role"
+        value={user.role}
+        onChange={handleChange}
+        className="w-full border p-2 mb-4"
+      >
+        <option value="User">User</option>
+        <option value="Admin">Admin</option>
+      </select>
 
-        {/* Buttons */}
-        <div className="flex justify-between mt-6">
-          <button
-            onClick={handleUpdate}
-            className="w-1/2 bg-blue-600 text-white font-semibold py-2 rounded-lg hover:bg-blue-700 transition-all duration-300 mr-2"
-          >
-            Update
-          </button>
-          <button
-            onClick={() => navigate("/admin/users")}
-            className="w-1/2 bg-gray-400 text-white font-semibold py-2 rounded-lg hover:bg-gray-500 transition-all duration-300"
-          >
-            Cancel
-          </button>
-        </div>
+      <div className="flex space-x-2">
+        <button
+          onClick={handleUpdate}
+          className="bg-blue-600 text-white px-4 py-2 rounded"
+        >
+          Update
+        </button>
+        <button
+          onClick={() => navigate("/admin/users")}
+          className="bg-gray-400 text-white px-4 py-2 rounded"
+        >
+          Cancel
+        </button>
       </div>
     </div>
   );
